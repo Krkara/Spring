@@ -20,7 +20,7 @@ public class CardDeck {
             for (String rank : ranks) {
                 int value;
                 if (rank.equals("Ace") || rank.equals("King") || rank.equals("Queen") || rank.equals("Jack")) {
-                    value = 10;  // Face cards have rank 10
+                    value = 10;
                 } else {
                     value = Integer.parseInt(rank);
                 }

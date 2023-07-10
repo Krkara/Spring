@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @RestController
 public class CardGameController {
@@ -13,16 +15,21 @@ public class CardGameController {
     Card baseCard = new Card();
     Random random = new Random();
     int points = 0;
-    StringBuilder stringBuilder = new StringBuilder();
+    StringBuilder stringBuilder;
+    Timer timer;
+    long startTime;
 
     @GetMapping("start")
     public String startRound() {
+        stringBuilder = new StringBuilder();
+
         int randomNumber = random.nextInt(52);
         baseCard = cards.get(randomNumber);
-
         stringBuilder.append(baseCard.toString()).append("<br>");
         stringBuilder.append("Is the next card higher, lower or equal?").append("<br><br>");
 
+        startTime = System.currentTimeMillis();
+        startTimer();
         return stringBuilder.toString();
     }
 
@@ -42,6 +49,12 @@ public class CardGameController {
     }
 
     private String handleChoice(String choice) {
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        if (elapsedTime >= 10000) {
+            stringBuilder.append("TIME_OUT");
+            return stringBuilder.toString();
+        }
+
         int randomNumber = random.nextInt(52);
         Card resultCard = cards.get(randomNumber);
         stringBuilder.append(resultCard.toString()).append("<br>");
@@ -56,6 +69,27 @@ public class CardGameController {
         }
         stringBuilder.append("Is the next card higher, lower or equal?").append("<br><br>");
         baseCard = resultCard;
+
+        startTime = System.currentTimeMillis();
+        startTimer();
         return stringBuilder.toString();
+    }
+
+    private void startTimer() {
+        cancelTimer();
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+            }
+        }, 10000);
+    }
+
+    private void cancelTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 }
