@@ -14,7 +14,7 @@ public class CardGameController {
     List<Card> cards = cardDeck.getDeck();
     Card baseCard = new Card();
     Random random = new Random();
-    int points = 0;
+    int points;
     StringBuilder stringBuilder;
     Timer timer;
     long startTime;
@@ -28,6 +28,7 @@ public class CardGameController {
         stringBuilder.append(baseCard.toString()).append("<br>");
         stringBuilder.append("Is the next card higher, lower or equal?").append("<br><br>");
 
+        points = 0;
         startTime = System.currentTimeMillis();
         startTimer();
         return stringBuilder.toString();
