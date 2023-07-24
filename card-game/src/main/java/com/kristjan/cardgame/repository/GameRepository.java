@@ -13,7 +13,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     List<Game> findGamesByPlayerNameOrderByCorrectAnswers(String playerName);
     List<Game> findAllByCorrectAnswersIsGreaterThanEqual(int answers);
     Game findTopByOrderByCorrectAnswersDesc();
-
     @Query("SELECT g FROM Game g ORDER BY g.correctAnswers desc limit 3")
     List<Game> findTop3GamesByCorrectAnswersDec();
 }
