@@ -3,6 +3,7 @@ package com.kristjan.webshop.controller;
 import com.kristjan.webshop.dto.everypay.EverypayResponse;
 import com.kristjan.webshop.entity.Order;
 import com.kristjan.webshop.entity.OrderRow;
+import com.kristjan.webshop.exception.NotEnoughInStockException;
 import com.kristjan.webshop.repository.OrderRepository;
 import com.kristjan.webshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,27 +20,22 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @GetMapping()
     public ResponseEntity<List<Order>> getOrders() {
         return new ResponseEntity<>(orderRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public List<Order> addOrder(@RequestBody Order order) {
-        orderRepository.save(order);
-        return orderRepository.findAll();
-    }
-
-    @PostMapping("/{personId}")
+    @PostMapping("orders/{personId}")
     public ResponseEntity<String> addOrder(
             @RequestBody List<OrderRow> orderRows,
             @PathVariable Long personId
-    ) throws Exception {
+    ) throws NotEnoughInStockException {
         double totalSum = orderService.getTotalSum(orderRows);
         Long id = orderService.saveOrderToDb(totalSum, orderRows, personId);
         String paymentUrl = orderService.makePayment(totalSum, id);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(orderRepository.findAll());
         return new ResponseEntity<>(paymentUrl, HttpStatus.CREATED);
     }
 
