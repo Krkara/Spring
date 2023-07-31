@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kristjan</groupId>
-    <artifactId>webshop</artifactId>
+    <artifactId>tireChangeWorkshop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>webshop</name>
-    <description>webshop</description>
+    <name>tireChangeWorkshop</name>
+    <description>tireChangeWorkshop</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -63,21 +63,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>2.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>32.1.1-jre</version>
         </dependency>
     </dependencies>
 
