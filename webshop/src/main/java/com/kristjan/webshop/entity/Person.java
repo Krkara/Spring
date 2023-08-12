@@ -17,12 +17,10 @@ public class Person {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-    private String email;
-    @Column(unique = true)
     private String personalCode;
     private String firstName;
     private String lastName;
     private String password;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ContactData contactData;
 }
