@@ -1,9 +1,6 @@
-import { RegisterService } from './../../services/register.service';
-import { Person } from 'src/app/models/person.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
-import { ContactData } from 'src/app/models/contact-data.model';
-import { Address } from 'src/app/models/address.model';
 
 @Component({
   selector: 'app-register',
@@ -12,35 +9,55 @@ import { Address } from 'src/app/models/address.model';
 })
 export class RegisterComponent {
 
-  constructor(private registerService : RegisterService) {
+  constructor(private authService : AuthService) {
 
   }
-  onSubmit(loginForm: NgForm) {
-    const formValue = loginForm.value;
   
-    const address = new Address(
-      formValue.country,
-      formValue.county,
-      formValue.street,
-      formValue.number,
-      formValue.postalIndex
-    );
-  
-    const contactData = new ContactData(
-      formValue.email,
-      formValue.phone,
-      address
-    );
-  
-    const newPerson = new Person(
-      formValue.personalCode,
-      formValue.firstName,
-      formValue.lastName,
-      formValue.password,
-      contactData
-    );
-  
-    this.registerService.register(newPerson).subscribe();
+  handleSubmit(signUpForm: NgForm) {
+    const formValue = signUpForm.value;
+
+    // validate if passwords match
+
+    const signUpFormData = {
+      personalCode: formValue.personalCode,
+      firstName: formValue.firstName,
+      lastName: formValue.lastName,
+      password: formValue.password,
+      contactData: {
+        email: formValue.email,
+        phone: formValue.phone,
+        address: {
+          country: formValue.country,
+          county: formValue.county,
+          street: formValue.street,
+          number: formValue.number,
+          postalIndex: formValue.postalIndex,
+        },
+      },
+    };
+
+    this.authService.register(signUpFormData).subscribe();
   }
   
+  fillWithDummyData(signUpForm: NgForm) {
+    signUpForm.setValue({
+      email: '1@1.com',
+      password: '1',
+      passwordConfirm: '1',
+      firstName: 'John',
+      lastName: 'Doe',
+      personalCode: '1',
+      phone: '+3725554321',
+      country: 'Estonia',
+      county: 'Harju',
+      street: 'Lennujaama tee',
+      number: '1',
+      postalIndex: '12345',
+    });
+  }
+
+  clearForm(signUpForm: NgForm) {
+    signUpForm.reset();
+  }
 }
+

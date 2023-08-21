@@ -40,11 +40,9 @@ public class GameService {
     }
 
     public String validate(boolean guessed, String input) {
-        /*
         if (guessed) {
             return "ALREADY_ANSWERED";
         }
-        */
         if (!input.equals("lower") && !input.equals("equals")
                 && !input.equals("higher")) {
             return "WRONG_INPUT";
